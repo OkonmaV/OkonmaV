@@ -26,6 +26,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	originpassword, ok := user[signlogin]
 	if ok {
 		if originpassword == signpassword {
+
 			expTime := time.Now().Add(10 * time.Minute)
 			claims := &Claims{
 				Login: signlogin,
