@@ -8,7 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var user = make(map[string]string)
+//var user = make(map[string]string)
 
 // Claims : fuck
 type Claims struct {

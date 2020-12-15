@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -16,16 +15,17 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-var user = make(map[string]string)
-
 func handler(w http.ResponseWriter, r *http.Request) {
-	ip := r.Header.Get("X-Forwarded-For")
+	//ip := r.Header.Get("X-Real-IP")
 	signlogin := r.URL.Query().Get("login")
 	signpassword := r.URL.Query().Get("pass")
+	err := Signup(signlogin, signpassword)
+	if err != nil {
+		fmt.Fprint(w, err)
+	}
+	/*err := Valid(signlogin, signpassword)
+	if err == nil {
 
-	originpassword, ok := user[signlogin]
-	if ok {
-		if originpassword == signpassword {
 
 			expTime := time.Now().Add(10 * time.Minute)
 			claims := &Claims{
@@ -55,12 +55,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		fmt.Fprintf(w, "other meh (no user with this login)")
-	}
+	}*/
 
 }
 
 func main() {
-	user["mark"] = "123"
+	//user["mark"] = "123"
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":8082", nil))
 }
