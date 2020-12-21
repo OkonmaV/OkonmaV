@@ -1,10 +1,10 @@
 package main
 
 import (
+	lib "OkonmaV/lib"
+	us "OkonmaV/userstorage"
 	"fmt"
 	"log"
-	lib "login/lib"
-	us "login/userstorage"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
