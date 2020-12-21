@@ -20,7 +20,6 @@ type Claims struct {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	userstorage := us.NewUsTxt("users.txt", "../userstorage/", "roles.txt")
 	login := r.URL.Query().Get("login")
 	pass := r.URL.Query().Get("pass")
 	err := userstorage.Valid(login, pass)
@@ -37,7 +36,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+var userstorage us.UsValid
+
 func main() {
+
+	userstorage = us.NewUsTxt("users.txt", "../userstorage/", "roles.txt")
+
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":8083", nil))
 }

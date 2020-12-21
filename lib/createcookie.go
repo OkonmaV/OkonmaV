@@ -19,7 +19,7 @@ type Claims struct {
 }
 
 // CreateCookie : <
-func CreateCookie(w http.ResponseWriter, r *http.Request, userstorage *us.UsTxt, login string) error {
+func CreateCookie(w http.ResponseWriter, r *http.Request, userstorage us.UsValid, login string) error {
 	ip := r.Header.Get("X-Real-IP")
 	expTime := time.Now().Add(10 * time.Minute)
 	uid, err := userstorage.GetUid(login)

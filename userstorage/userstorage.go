@@ -31,6 +31,7 @@ var ErrShortPassword error = errors.New("short password")
 var ErrBadLogin error = errors.New("bad login at id getting")
 
 type UsValid interface {
+	GetUid(login string) (string, error)
 	Valid(login, pass string) error
 }
 
@@ -39,7 +40,7 @@ type UsSignUp interface {
 }
 
 type UsAuth interface {
-	Check(uid, role int) bool
+	Check(uid, role string) (bool, error)
 }
 type UsReader interface {
 	readUs(filename string) (*os.File, error)
@@ -52,8 +53,7 @@ type UsTxt struct {
 }
 
 func NewUsTxt(filename, location, rolesfilename string) *UsTxt {
-	storage := UsTxt{filename, location, rolesfilename}
-	return &storage
+	return &UsTxt{Filename: filename, Location: location, RolesFilename: rolesfilename}
 }
 
 func (storage *UsTxt) readUs(filename string) (*os.File, error) {
@@ -64,7 +64,7 @@ func getUsData(i UsReader, filename string) ([]byte, error) {
 	var data []byte
 	file, err := i.readUs(filename)
 	if err != nil {
-		return data, err
+		return nil, err
 	}
 	defer file.Close()
 	data, err = ioutil.ReadAll(file)
