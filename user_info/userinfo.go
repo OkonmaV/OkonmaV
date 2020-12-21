@@ -8,19 +8,18 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-//var user = make(map[string]string)
-
 // Claims : fuck
 type Claims struct {
-	Login string `json:"login"`
-	IP    string `json:"ip"`
+	Login string
+	IP    string
+	Uid   string
 	jwt.StandardClaims
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	jwtKey := []byte("so_secure" + r.UserAgent())
+	jwtKey := []byte("so_secure")
 	//	ip := r.Header.Get("X-Forwarded-For")
-	cookie, err := r.Cookie("auth")
+	cookie, err := r.Cookie("koki")
 	if err != nil {
 		fmt.Println("no cookie")
 		return
@@ -48,7 +47,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	user["mark"] = "123"
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":8083", nil))
+	log.Fatal(http.ListenAndServe(":8084", nil))
 }

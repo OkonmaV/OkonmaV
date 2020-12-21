@@ -23,11 +23,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	userstorage := us.NewUsTxt("users.txt", "../userstorage/", "roles.txt")
 	login := r.URL.Query().Get("login")
 	pass := r.URL.Query().Get("pass")
-	err := userstorage.Valid(login, pass)
+	err := userstorage.SignUp(login, pass)
 	if err != nil {
+		//if err.Error() == us.ErrAlreadyUsedLogin.Error() || us.ErrShortPassword.Error() {
 		fmt.Fprintf(w, err.Error())
+		//}
+		//fmt.Println(err)
 		return
 	}
+
 	err = lib.CreateCookie(w, r, userstorage, login)
 	if err != nil {
 		fmt.Println(err)
@@ -39,5 +43,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":8083", nil))
+	log.Fatal(http.ListenAndServe(":8082", nil))
 }

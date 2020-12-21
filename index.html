@@ -7,12 +7,16 @@
         </title>
     </head>
     <body>
-        <!--# block name="default"-->
         <form action="/signin">
             <input placeholder="login" name="login">
             <input placeholder="password" type="password" name="pass">
-            <input type="submit" value="go">
+            <input type="submit" value="sign in">
         </form>
-        <!--# endblock -->
-        <!--# include virtual="/userinfo" stub="default" -->
+        <form action="/signup">
+            <input placeholder="login" name="login">
+            <input placeholder="password" type="password" name="pass">
+            <input type="submit" value="sign up">
+        </form>
+        
+        <!--# include virtual="/userinfo"-->
     </body>
